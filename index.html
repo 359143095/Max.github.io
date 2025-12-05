@@ -1,107 +1,390 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的个人主页</title>
+    <title>Max | Personal Blog</title>
+    <!-- 引入字体和图标 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* 全局重置与基础样式 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: all 0.3s ease;
         }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --border: #e2e8f0;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --card-hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+        }
+
+        .dark-mode {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #60a5fa;
+            --accent-hover: #38bdf8;
+            --border: #334155;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --card-hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.08);
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
             line-height: 1.6;
-            color: #333;
-            background-color: #f4f4f4;
-            padding: 20px;
+            padding: 0;
+            margin: 0;
         }
+
+        /* 容器与布局 */
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 0 20px;
         }
+
+        /* 头部导航 */
         header {
-            text-align: center;
-            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            background-color: var(--bg-primary);
+            z-index: 100;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
-        h1 {
-            color: #2c3e50;
-            font-size: 2.5em;
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .tagline {
-            color: #7f8c8d;
-            font-size: 1.2em;
-            margin-top: 10px;
-        }
-        .section {
-            margin-bottom: 25px;
-        }
-        h2 {
-            color: #3498db;
-            border-bottom: 2px solid #ecf0f1;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-        }
-        ul {
-            list-style-type: none;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-        a {
-            color: #3498db;
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        a:hover {
-            text-decoration: underline;
+
+        .logo i {
+            font-size: 1.8rem;
         }
-        footer {
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .theme-toggle {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        /* 个人信息卡片 */
+        .profile-card {
             text-align: center;
-            margin-top: 40px;
-            color: #7f8c8d;
-            font-size: 0.9em;
+            padding: 3rem 0;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--bg-secondary);
+            box-shadow: var(--card-shadow);
+            margin-bottom: 1rem;
+        }
+
+        .profile-name {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-bio {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            transition: color 0.2s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* 博客内容区 */
+        .blog-section {
+            padding: 2rem 0 4rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 0.8rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent);
+            border-radius: 3px;
+        }
+
+        .blog-list {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .blog-card {
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.8rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border);
+            cursor: pointer;
+        }
+
+        .blog-card:hover {
+            box-shadow: var(--card-hover-shadow);
+            transform: translateY(-4px);
+        }
+
+        .blog-date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .blog-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: block;
+        }
+
+        .blog-title:hover {
+            color: var(--accent);
+        }
+
+        .blog-excerpt {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .profile-name {
+                font-size: 1.6rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .blog-card {
+                padding: 1.5rem;
+            }
+
+            .blog-title {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .profile-card {
+                padding: 2rem 0;
+            }
+
+            .avatar {
+                width: 100px;
+                height: 100px;
+            }
+
+            .social-links {
+                gap: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>你好，我是Max</h1>
-            <p class="tagline">一名热爱编程的学习者 | 探索技术，分享成长</p>
-        </header>
+    <!-- 头部导航 -->
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">
+                <i class="fas fa-feather-alt"></i>
+                Max's Blog
+            </a>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
 
-        <section class="section">
-            <h2>关于我</h2>
-            <p>我正在学习 HTML、CSS、JavaScript 和 Python，喜欢用代码创造有趣的东西。</p>
-            <p>欢迎访问我的 GitHub 和博客！</p>
+    <main class="container">
+        <!-- 个人信息区域 -->
+        <section class="profile-card">
+            <img src="https://picsum.photos/200/200" alt="Max Avatar" class="avatar">
+            <h1 class="profile-name">Max Schoening</h1>
+            <p class="profile-bio">
+                Exploring the intersection of technology, creativity and minimalism.
+                Sharing thoughts on micro.blog, web development and digital life.
+            </p>
+            <div class="social-links">
+                <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="#" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
         </section>
 
-        <section class="section">
-            <h2>我的项目</h2>
-            <ul>
-                <li>✅ <a href="#">项目一：个人博客系统</a> - 用 Django 搭建</li>
-                <li>✅ <a href="#">项目二：待办清单 App</a> - 纯前端实现</li>
-                <li>✅ <a href="#">项目三：天气查询工具</a> - 调用 API 开发</li>
-            </ul>
-        </section>
+        <!-- 博客内容区域 -->
+        <section class="blog-section">
+            <h2 class="section-title">Latest Posts</h2>
+            <div class="blog-list">
+                <!-- 博客卡片1 -->
+                <article class="blog-card">
+                    <div class="blog-date">
+                        <i class="far fa-calendar-alt"></i>
+                        October 15, 2024
+                    </div>
+                    <a href="#" class="blog-title">Why Micro.blog is My Favorite Platform for Short Form Writing</a>
+                    <p class="blog-excerpt">
+                        After trying dozens of blogging platforms, I've settled on micro.blog for its simplicity,
+                        ownership of content, and vibrant community. Here's why it stands out from the crowd...
+                    </p>
+                </article>
 
-        <section class="section">
-            <h2>联系方式</h2>
-            <ul>
-                <li>📧 邮箱：359143095@qq.com</li>
-                <li>💻 GitHub：<a href="https://github.com/Max">@Max</a></li>
-                <li>🔗 个人网站：<a href="https://Max.github.io">Max.github.io</a></li>
-            </ul>
-        </section>
+                <!-- 博客卡片2 -->
+                <article class="blog-card">
+                    <div class="blog-date">
+                        <i class="far fa-calendar-alt"></i>
+                        October 8, 2024
+                    </div>
+                    <a href="#" class="blog-title">Building a Minimalist Personal Site with GitHub Pages</a>
+                    <p class="blog-excerpt">
+                        GitHub Pages is more than just a hosting service – it's a powerful tool for creating
+                        fast, secure, and customizable personal sites without the hassle of managing servers...
+                    </p>
+                </article>
 
-        <footer>
-            <p>&copy; 2024 Max | 用 ❤️ 制作</p>
-        </footer>
-    </div>
+                <!-- 博客卡片3 -->
+                <article class="blog-card">
+                    <div class="blog-date">
+                        <i class="far fa-calendar-alt"></i>
+                        October 1, 2024
+                    </div>
+                    <a href="#" class="blog-title">The Beauty of Simple Code: Lessons from Frontend Development</a>
+                    <p class="blog-excerpt">
+                        In a world of complex frameworks and overengineered solutions, I've learned to appreciate
+                        the power of simple, readable code. Here's how minimalism improved my frontend projects...
+                    </p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // 暗黑模式切换
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // 检查本地存储的主题偏好
+        if (localStorage.getItem('theme') === 'dark' || 
+            (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            body.classList.add('dark-mode');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+
+        // 切换主题
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        });
+
+        // 博客卡片hover效果增强
+        const blogCards = document.querySelectorAll('.blog-card');
+        blogCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.borderColor = getComputedStyle(body).getPropertyValue('--accent');
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.borderColor = getComputedStyle(body).getPropertyValue('--border');
+            });
+        });
+    </script>
 </body>
 </html>
